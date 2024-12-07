@@ -13,7 +13,7 @@ let [x, y] = labMap.reduce((acc, line, index) => {
 
 const visitedPos = new Set();
 let [dirX, dirY] = [-1, 0]; //up
-let block = 0;
+const blockArr = new Set();
 
 do {
   const key = `${x},${y} ${dirX},${dirY}`;
@@ -38,7 +38,8 @@ do {
 
     nextX = x + dirX;
     nextY = y + dirY;
-  } else {
+  } else if (![...visitedPos].some(value => value.startsWith(`${nextX},${nextY} `))) {
+    let [blockX, blockY] = [nextX, nextY];
     let dirXInner = dirY;
     let dirYInner = -dirX;
 
@@ -55,8 +56,6 @@ do {
     }
 
     let [xInner, yInner] = [nextXInner, nextYInner];
-
-    console.log(`${x},${y} ${dirX},${dirY}  ` + `${xInner},${yInner} ${dirXInner},${dirYInner}`)
 
     const visitedPosInner = new Set();
     let valid = false;
@@ -77,7 +76,7 @@ do {
         break;
       }
     
-      if (labMap[nextXInner][nextYInner] === '#') {
+      if (labMap[nextXInner][nextYInner] === '#' || (nextXInner == blockX && nextYInner == blockY)) {
         temp = dirXInner;
         dirXInner = dirYInner;
         dirYInner = -temp;
@@ -90,7 +89,9 @@ do {
     } while(1);
     
     if (valid) {
-      block++;
+      if (!blockArr.has(`${blockX},${blockY}`)) {
+        blockArr.add(`${blockX},${blockY}`);
+      };
     }
   }
 
@@ -99,36 +100,4 @@ do {
 
 const visitedPosArr = [new Set([...visitedPos].map(tile => tile.split(' ')[0])).size];
 console.log(visitedPosArr[0]); //p1
-console.log(block);
-
-// /,1 -1,0$/
-// /^4,.* -1,0$/
-
-// visitedPos.forEach(v => {
-//   [[x, y], [dirX, dirY]] = v.split(' ').map(p => p.split(',').map(Number));
-
-//   nextX = x + dirX;
-//   nextY = y + dirY;
-
-//   if (labMap[nextX][nextY] == '#') {
-//     return;
-//   }
-
-//   temp = dirX;
-//   dirX = dirY;
-//   dirY = -temp;
-
-//   nextX = x + dirX;
-//   nextY = y + dirY;
-
-//   let searchPattern = null;
-
-//   if (Math.abs(dirX) == 1) {
-//     searchPattern = new RegExp(`,${y} ${dirX},${dirY}`);
-//   } else {
-//     searchPattern = new RegExp(`^${x},.* ${dirX},${dirY}$`);
-//   }
-  
-//   let found = [...visitedPos].find(value => searchPattern.test(value));
-//   console.log([x, y], found)
-// })
+console.log(blockArr.size);
