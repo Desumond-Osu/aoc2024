@@ -1,5 +1,5 @@
 const fs = require('node:fs');
-const file = fs.readFileSync(`inputs/${__filename.split('/').pop().replace('.js', '')}.txt`, 'utf8').replace(/\r?\n/g, '');
+const file = fs.readFileSync(require('path').join(__dirname, 'inputs', `${require('path').basename(__filename, '.js')}.txt`), 'utf8').replace(/\r?\n/g, '');
 
 //p1
 const mul = file.match(/mul\(\d+,\d+\)/g);

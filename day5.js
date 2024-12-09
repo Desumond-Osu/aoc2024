@@ -1,5 +1,5 @@
 const fs = require('node:fs');
-let [pageOrder, pageNo] = fs.readFileSync(`inputs/${__filename.split('/').pop().replace('.js', '')}.txt`, 'utf8').split('\n\n');
+let [pageOrder, pageNo] = fs.readFileSync(require('path').join(__dirname, 'inputs', `${require('path').basename(__filename, '.js')}.txt`), 'utf8').split('\n\n');
 
 pageOrder = pageOrder.split('\n').map(p => p.split('|'));
 pageNo = pageNo.split('\n').map(p => p.split(','));

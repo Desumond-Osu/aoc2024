@@ -1,5 +1,5 @@
 const fs = require('node:fs');
-const file = fs.readFileSync(`inputs/${__filename.split('/').pop().replace('.js', '')}.txt`, 'utf8').split('\n');
+const file = fs.readFileSync(require('path').join(__dirname, 'inputs', `${require('path').basename(__filename, '.js')}.txt`), 'utf8').split('\n');
 
 const space = file.map(row => row.split(''));
 
