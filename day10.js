@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 
 const trailheads = [];
-const map = fs.readFileSync(require('path').join(__dirname, 'inputs', `${require('path').basename(__filename, '.js')}.txt`), 'utf8').split('\n').map((row, x) => {
+const map = fs.readFileSync(require('path').join(__dirname, 'inputs', `${require('path').basename(__filename, '.js')}.txt`), 'utf8').split(/\r?\n/).map((row, x) => {
   row = row.split('');
   row.forEach((col, y) => {
     if (col == 0) {
