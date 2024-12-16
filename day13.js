@@ -12,11 +12,18 @@ for (const part of ['p1', 'p2']) {
         if (part == 'p2') {
             row[2] = row[2].map(val => val + 10000000000000);
         }
+
+        //some maths involving simul equations (alternatively can use Cramer's rule but it works)
+        let [[aX, aY], [bX, bY], [prizeX, prizeY]] = [[row[0][0], row[0][1]], [row[1][0], row[1][1]], [row[2][0], row[2][1]]];
         
-        row = [[row[0][0] * row[0][1], row[0][1] * row[0][0]], [row[1][0] * row[0][1], row[1][1] * row[0][0]], [row[2][0] * row[0][1], row[2][1] * row[0][0]]];
-        row = row.map(val => [val[0] - val[1], val[1]]);
-        const b = row[2][0] / row[1][0];
-        const a = (row[2][1] - row[1][1] * b) / row[0][1];
+        //cross multiply
+        [[aX, aY], [bX, bY], [prizeX, prizeY]] = [[aX * aY, aY * aX], [bX * aY, bY * aX], [prizeX * aY, prizeY * aX]];
+
+        //subtract
+        [[aX, aY], [bX, bY], [prizeX, prizeY]] = [[aX - aY, aY], [bX - bY, bY], [prizeX - prizeY, prizeY]];
+
+        const b = prizeX / bX;
+        const a = (prizeY - bY * b) / aY;
     
         if (!Number.isInteger(a) || !Number.isInteger(b)) {
             return;
