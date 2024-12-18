@@ -50,10 +50,11 @@ const instruct = (p2A=null) => {
   return value;
 }
 
+//p1
 console.log(instruct().toString());
 
+//p2
 const flatProgram = program.flat().toString();
-
 for (i = 0n; i < Infinity; i++) {
   let output = instruct(i).toString();
   if (output == flatProgram) {
